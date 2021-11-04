@@ -1,13 +1,25 @@
 
 # About the project
 
-*Write a short description about the course and add a link to your GitHub repository here. This is an R Markdown (.Rmd) file so you should use R Markdown syntax.*
+<!-- *Write a short description about the course and add a link to your GitHub repository here. This is an R Markdown (.Rmd) file so you should use R Markdown syntax.* -->
 
-```{r}
+This is a learning project on the Introduction to Open Data Science course. I'm here to learn R, Rstudio, Git, Github and some magical ways to interact with data so that people without these skills can make use of mine after I eventually will apply them in working life.
+
+My Github repository is at [https://github.com/PirVe/IODS-project](https://github.com/PirVe/IODS-project).
+
+```{r echo=FALSE}
 # This is a so-called "R chunk" where you can write R code.
 
 date()
 
 ```
-The text continues here.
+## Feeling atm:
+I'm feeling fine, somewhat unhappy with the darkness outside.
+
+## Learning expectations:
+I expect to learn a lot on this course, especially <mark style="background-color: yellow">basic skills</mark> that I can build on later in my studies.
+
+## How did I find out about this course:
+I learned about the course by accident while surfing around [Centre for Social Data Science webpage](https://www.helsinki.fi/en/networks/centre-social-data-science)
+
 
