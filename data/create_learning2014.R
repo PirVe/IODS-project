@@ -34,7 +34,7 @@ learning2014$surf <- rowMeans(surface_columns)
 strategic_columns <- select(learning2014, one_of(strategic_questions))
 learning2014$stra <- rowMeans(strategic_columns)
 
-# Scaling the column "Attitude" by dividing it by the sum of 10 questions to get it back to Likert scale 1-5
+# Scaling the column "Attitude" to mean by dividing it by the sum of 10 questions to get it back to Likert scale 1-5
 learning2014$attitude <- learning2014$Attitude / 10
 
 # Checking current column names in learning2014
@@ -51,5 +51,7 @@ str(lrn2014)
 colnames(lrn2014)[2] <- "age"
 colnames(lrn2014)[7] <- "points"
 
-# Excluding observations where the exam points variable is zero
-
+# Excluding observations where the exam points variable is zero by filtering for greater than 0 values
+lrn2014 <- filter(lrn2014, points > 0)
+#Output: 166 observations of 7 variables
+# step 3 completed
