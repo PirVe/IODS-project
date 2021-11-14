@@ -23,10 +23,13 @@ head(lrn2014)
 dim(lrn2014)
 ```
 
-There are 166 observations of 7 variables in the dataframe. Variables used are gender ("gender"), age ("age"), attitude ("attitude"), deep questions ("deep"), strategic questions ("stra"), surface questions ("surf") and points ("points"). Deep, stra and surf are combined variables from several related questions in the survey. Points values of 0 have been excluded from the dataframe.
+There are 166 observations of 7 variables in the dataframe. Variables used are gender ("gender"), age ("age"), attitude ("attitude"), deep questions ("deep"), strategic questions ("stra"), surface questions ("surf") and points ("points"). Deep, stra and surf are combined variables from several related questions in the survey, which were scaled by taking the mean, and attitude a sum of 10 questions, which was scaled by dividing by the sum of the questions to the original Likert scale of 1-5. Points values of 0 have been excluded from the dataframe.
 
 # step 1 completed
-
-
+Graphical overview of the data
+```{r}
+summary(lrn2014)
+```
+First, a summary of the dataframe used in this task. The respondents' were at minimum 17 years old, 
 
 
