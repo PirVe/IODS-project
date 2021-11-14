@@ -27,7 +27,7 @@ head(lrn2014)
 dim(lrn2014)
 ```
 
-There are 166 observations of 7 variables in the dataframe. Variables used are gender ("gender"), age ("age"), attitude ("attitude"), deep questions ("deep"), strategic questions ("stra"), surface questions ("surf") and points ("points"). Deep, stra and surf are combined variables from several related questions in the survey, which were scaled by taking the mean, and attitude a sum of 10 questions, which was scaled by dividing by the sum of the questions to the original Likert scale of 1-5. Points values of 0 have been excluded from the dataframe.
+There are 166 observations of 7 variables in the dataframe. Variables used are gender ("gender"), age ("age"), attitude ("attitude"), deep questions ("deep"), strategic questions ("stra"), surface questions ("surf") and exam points ("points"). Deep, stra and surf are combined variables from several related questions in the survey, which were scaled by taking the mean, and attitude a sum of 10 questions, which was scaled by dividing by the sum of the questions to the original Likert scale of 1-5. Points values of 0 have been excluded from the dataframe.
 
 # step 1 completed
 Graphical overview of the data
@@ -46,7 +46,32 @@ p
 
 We can see that all variables "attitude", "deep", "stra", "surf" and "points" are approximately normally distributed. There is a statistically significant correlation between attitude and points, and other interesting correlations seem to exist between male respondents' answers to surface and deep questions.
 
+# step 2 completed
 
+For closer inspection variables "age", "attitude" and "surf" were selected to explain the target variable "points"
+
+# my regression model and summary
+```{r}
+my_model <- lm(points ~ age + attitude + surf, data = lrn2014)
+summary(my_model)
+```
+Alpha is appr. 16,86 points, and the greatest effect to the exam points has attitude, 3,42 points. Age does not predict points very well as the effect is negative, -0,09 points, and answers to surface level questions have slightly negative effect on exam points, -0.96. The p-value of attitude in relation to points is statistically significant, which can be interpreted to confirm that attitude actually impacts exam points.
+To find a better fitting model, age was removed from the model
+
+# creating a second model with attitude and surf
+```{r}
+my_model2 <- lm(points ~ attitude + surf, data = lrn2014)
+summary(my_model2)
+```
+# trying out another model with age and attitude
+```{r}
+my_model3 <- lm(points ~ age + attitude, data = lrn2014)
+summary(my_model3)
+```
+# step 3 completed
+In any of the three models, the Multiple R-squared is approximately 20 %, which is quite low, as only one fifth of the results can be explained by the regression model. However, the dataset is a subset to begin with, and the respondent students have a wide array of other factors impacting their exam points. In this light, the low R-squared is acceptable. 
+
+# step 4 completed
 
 
 
