@@ -44,12 +44,12 @@ colnames(learning2014)
 keep_columns <- c("gender","Age","attitude", "deep", "stra", "surf", "Points")
 lrn2014 <- select(learning2014, one_of(keep_columns))
 
-# Checking current column names in lrn2014
-colnames(lrn2014)
+# checking the stucture of the new dataset lrn2014
+str(lrn2014)
 
 # renaming columns Age and Points
 colnames(lrn2014)[2] <- "age"
 colnames(lrn2014)[7] <- "points"
 
-
+# Excluding observations where the exam points variable is zero
 
