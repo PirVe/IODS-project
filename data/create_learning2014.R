@@ -55,3 +55,15 @@ colnames(lrn2014)[7] <- "points"
 lrn2014 <- filter(lrn2014, points > 0)
 #Output: 166 observations of 7 variables
 # step 3 completed
+
+# Setting the project folder to IODS-project
+setwd("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project")
+getwd()
+
+# Saving analysis dataset lrn2014 to csv file
+write.csv(lrn2014, file = "lrn2014.csv")
+
+# Checking readability and structure of lrn2014.csv
+read.csv("lrn2014.csv")
+str(lrn2014)
+head(lrn2014)
