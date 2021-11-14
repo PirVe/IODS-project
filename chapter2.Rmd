@@ -83,6 +83,7 @@ To visualize the model diagnostics, the model is presented by Residuals vs Fitte
 par(mfrow = c(2,2))
 plot(my_model, which = c(1, 2, 5))
 ```
+
 In the Residuals vs. Fitted graph the variance of the residuals is reasonably constant, implying that the size of the errors should not depend on the explanatory variables. The Normal Q-Q plot confirms the assumption that the errors of the model are normally distributed. By observing the residuals vs. leverage plot, no single observation stands out, and the leverage seems regular. 
 
 <!-- step 5 completed -->
