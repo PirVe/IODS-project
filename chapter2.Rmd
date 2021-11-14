@@ -21,7 +21,7 @@ The data used in this task is a subset of Learning 2014 survey data, collected b
 
 # Reading the data, looking at structure and checking that the dataframe is readable 
 ```{r}
-lrn2014 <- read.csv(file.path(path, "lrn2014.csv"))
+lrn2014 <- read.csv("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/lrn2014.csv")
 str(lrn2014)
 head(lrn2014)
 dim(lrn2014)
@@ -35,9 +35,14 @@ Graphical overview of the data
 ```{r}
 summary(lrn2014)
 table(lrn2014$gender)
-boxplot(lrn2014[,2:7])
 ```
  The respondents were at 17 to 55 years old, median age 25,5 years. 110 were female and 56 male. Points varied between 7 to 33.
+ 
+```{r}
+p <- ggpairs(lrn2014, mapping = aes(col = gender, alpha = 0.3), lower = list(combo = wrap("facethist", bins = 20)))
+p
+```
+
 
 
 
