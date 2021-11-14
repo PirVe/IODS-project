@@ -35,21 +35,20 @@ strategic_columns <- select(learning2014, one_of(strategic_questions))
 learning2014$stra <- rowMeans(strategic_columns)
 
 # Scaling the column "Attitude" by dividing it by the sum of 10 questions to get it back to Likert scale 1-5
-learning2014$Attitude <- learning2014$attitude / 10
+learning2014$attitude <- learning2014$Attitude / 10
 
 # Checking current column names in learning2014
 colnames(learning2014)
 
 # choosing the columns to keep and creating a new dataset with them
-keep_columns <- c("gender","Age","Attitude", "deep", "stra", "surf", "Points")
+keep_columns <- c("gender","Age","attitude", "deep", "stra", "surf", "Points")
 lrn2014 <- select(learning2014, one_of(keep_columns))
 
 # Checking current column names in lrn2014
 colnames(lrn2014)
 
-# renaming columns Age, Attitude and Points
+# renaming columns Age and Points
 colnames(lrn2014)[2] <- "age"
-colnames(lrn2014)[3] <- "attitude"
 colnames(lrn2014)[7] <- "points"
 
 
