@@ -6,9 +6,13 @@
 - Assume the reader has an introductory course level understanding of writing and reading R code as well as statistical methods.
 - Assume the reader has no previous knowledge of your data or the more advanced methods you are using.
 
-```{r}
+```{r, echo=F, message=F, warning=F}
 date()
+if (!require("pacman")) install.packages("pacman") 
+pacman::p_load(tidyverse, forcats, haven, janitor, psych, lm.beta, broom, writexl,sjstats, knitr, pwr, dplyr, GGally, ggplot2)
 library(dplyr)
+library(GGally)
+library(ggplot2)
 ```
 
 
@@ -31,7 +35,7 @@ Graphical overview of the data
 ```{r}
 summary(lrn2014)
 table(lrn2014$gender)
-
+boxplot(lrn2014[,2:7])
 ```
  The respondents were at 17 to 55 years old, median age 25,5 years. 110 were female and 56 male. Points varied between 7 to 33.
 
