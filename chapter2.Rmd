@@ -1,4 +1,4 @@
-# Insert chapter 2 title here
+# Week 2: Regression and model validation 
 
 *Describe the work you have done this week and summarize your learning.*
 
@@ -8,6 +8,25 @@
 
 ```{r}
 date()
+library(dplyr)
 ```
 
-Here we go again...
+
+
+The data used in this task is a subset of Learning 2014 survey data, collected by Kimmo Vehkalahti for an international survey of Approaches to Learning, made possible by Teachers' Academy funding for Kimmo Vehkalahti in 2013-2015.
+
+# Reading the data, looking at structure and checking that the dataframe is readable 
+```{r}
+lrn2014 <- read.csv(file.path(path, "lrn2014.csv"))
+str(lrn2014)
+head(lrn2014)
+dim(lrn2014)
+```
+
+There are 166 observations of 7 variables in the dataframe. Variables used are gender ("gender"), age ("age"), attitude ("attitude"), deep questions ("deep"), strategic questions ("stra"), surface questions ("surf") and points ("points"). Deep, stra and surf are combined variables from several related questions in the survey. Points values of 0 have been excluded from the dataframe.
+
+# step 1 completed
+
+
+
+
