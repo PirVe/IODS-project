@@ -27,9 +27,13 @@ There are 166 observations of 7 variables in the dataframe. Variables used are g
 
 # step 1 completed
 Graphical overview of the data
+# summary() works to present numerical variables, using table() to present gender which is a categorical variable
 ```{r}
 summary(lrn2014)
+table(lrn2014$gender)
+
 ```
-First, a summary of the dataframe used in this task. The respondents' were at minimum 17 years old, 
+ The respondents were at 17 to 55 years old, median age 25,5 years. 110 were female and 56 male. Points varied between 7 to 33.
+
 
 
