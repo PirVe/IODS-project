@@ -58,12 +58,14 @@ lrn2014 <- filter(lrn2014, points > 0)
 
 # Setting the project folder to IODS-project
 setwd("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project")
-getwd()
 
-# Saving analysis dataset lrn2014 to csv file
-write.csv(lrn2014, file = "lrn2014.csv")
+# Saving analysis dataset lrn2014 to csv file in folder "data"
+path <- "C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data"
+write.csv(lrn2014, file.path(path, "lrn2014.csv"), row.names=FALSE)
 
 # Checking readability and structure of lrn2014.csv
-read.csv("lrn2014.csv")
+lrn2014 <- read.csv(file.path(path, "lrn2014.csv"))
 str(lrn2014)
 head(lrn2014)
+# Output: correct, dataset readable and structure 166 observations, 7 variables
+# step 4 completed
