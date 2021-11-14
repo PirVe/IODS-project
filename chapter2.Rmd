@@ -73,5 +73,10 @@ In any of the three models, the Multiple R-squared is approximately 20 %, which 
 
 # step 4 completed
 
+To visualize the model diagnostics, the model is presented by Residuals vs Fitted values, Normal QQ-plot and Residuals vs Leverage.
 
+```{r}
+par(mfrow = c(2,2))
+plot(my_model, which = c(1, 2, 5))
+```
 
