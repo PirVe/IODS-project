@@ -37,11 +37,15 @@ summary(lrn2014)
 table(lrn2014$gender)
 ```
  The respondents were at 17 to 55 years old, median age 25,5 years. 110 were female and 56 male. Points varied between 7 to 33.
- 
+
+# creating a visual presentation of all variables and their relations to one another 
 ```{r}
 p <- ggpairs(lrn2014, mapping = aes(col = gender, alpha = 0.3), lower = list(combo = wrap("facethist", bins = 20)))
 p
 ```
+
+We can see that all variables "attitude", "deep", "stra", "surf" and "points" are approximately normally distributed. There is a statistically significant correlation between attitude and points, and other interesting correlations seem to exist between male respondents' answers to surface and deep questions.
+
 
 
 
