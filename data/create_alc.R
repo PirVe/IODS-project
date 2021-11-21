@@ -58,3 +58,13 @@ pormath <- por_id %>%
 
 # Save created data to folder 'data' as an Excel worksheet
 write.xlsx(pormath, file="C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/pormath.xlsx")
+
+# Reading the newly created pormath data to Rstudio
+pormath <- read.xlsx("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/pormath.xlsx")
+
+# Exploring the structure and dimensions of pormath
+str(pormath)
+dim(pormath)
+# Output: there are 370 observations of 51 variables
+
+
