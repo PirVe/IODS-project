@@ -11,9 +11,9 @@ library(ggplot2)
 This week I'm analysing a joined dataset that includes two student alcohol consumption data sets. Data set information can be found here: https://archive.ics.uci.edu/ml/datasets/Student+Performance 
 The following adjustments have been made:
 The variables not used for joining the two data have been combined by averaging (including the grade variables)
-* 'alc_use' is the average of 'Dalc' and 'Walc'
+* 'alc_use' is the average of 'Dalc' (weekday alcohol usage) and 'Walc' (weekend alcohol usage)
 * 'high_use' is TRUE if 'alc_use' is higher than 2 and FALSE otherwise
-
+The purpose of my analysis is to study the relationships between high/low alcohol consumption and some of the other variables in the data.
 
 # What's in the dataframe
 ```{r}
@@ -24,4 +24,13 @@ dim(alc)
 ```
 There are 370 observations over 35 variables. Respondents are studens whose age range from 15 to 22 years, and there are numeric, nominal and  binary variables. Binary variables include questions such as students' sex (F for female, M for male), the school they are from (school), family size (famsize).
 
-
+# Looking more closely at 4 variables in relation to alcohol consumption: 
+I believe that it will be interesting to further study these 4 specific variables and how they relate to alcohol consumption.
+* variable "school" because peer pressure can affect alcohol consumption
+* variable "sex" because male students may emulate their male role model's alcohol usage and therefore there may be differences in the youth between sexes
+* variable "age" because there is a legal age (let's say its 18 for this dataset) for using alcohol, and some of the respondents in the data are below 18 years old
+* variable "absences" because other norm-breaking behavior such as absences from school may occur if student is also consuming alcohol regularly.
+Here is an overview of the four variables in the dataset:
+```{r}
+alc %>% group_by(school, sex, age, absences) %>% summarise(count = n())
+```
