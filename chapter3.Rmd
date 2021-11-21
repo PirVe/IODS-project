@@ -3,16 +3,19 @@
 ```{r, echo=F, message=F, warning=F}
 date()
 if (!require("pacman")) install.packages("pacman") 
-pacman::p_load(tidyverse, forcats, haven, janitor, psych, lm.beta, broom, writexl,sjstats, knitr, pwr, dplyr, GGally, ggplot2)
+pacman::p_load(tidyverse, forcats, haven, janitor, psych, lm.beta, broom, writexl,sjstats, knitr, pwr, dplyr, GGally, ggplot2, boot)
 library(dplyr)
 library(GGally)
 library(ggplot2)
+library(boot)
 ```
 This week I'm analysing a joined dataset that includes two student alcohol consumption data sets. Data set information can be found here: https://archive.ics.uci.edu/ml/datasets/Student+Performance 
 The following adjustments have been made:
 The variables not used for joining the two data have been combined by averaging (including the grade variables)
-* 'alc_use' is the average of 'Dalc' (weekday alcohol usage) and 'Walc' (weekend alcohol usage)
-* 'high_use' is TRUE if 'alc_use' is higher than 2 and FALSE otherwise
+
+* 'alc_use' is the average of 'Dalc' (weekday alcohol usage) and 'Walc' (weekend alcohol usage).
+* 'high_use' is TRUE if 'alc_use' is higher than 2 and FALSE otherwise.
+
 The purpose of my analysis is to study the relationships between high/low alcohol consumption and some of the other variables in the data.
 
 ## What's in the dataframe
@@ -26,11 +29,13 @@ There are 370 observations over 35 variables. Respondents are studens whose age 
 
 ## Looking more closely at 4 variables in relation to alcohol consumption: 
 I believe that it will be interesting to further study these 4 specific variables and how they relate to alcohol consumption.
-* variable "school" because peer pressure can affect alcohol consumption
+
+* variable "school" because peer pressure can affect alcohol consumption.
 * variable "famsize" which is a binary variable of less than 3 family members or more than 3 family members. My hypothesis is that family size does not predict alcohol consumption.
-* variable "age" because there is a legal age (let's say its 18 for this dataset) for using alcohol, and some of the respondents in the data are below 18 years old
+* variable "age" because there is a legal age (let's say its 18 for this dataset) for using alcohol, and some of the respondents in the data are below 18 years old.
 * variable "absences", number of school absences (numeric: from 0 to 93)
  because other norm-breaking behavior such as absences from school may occur if student is also consuming alcohol regularly.
+ 
 Here is an overview of the four variables in the dataset:
 ```{r}
 alc %>% group_by(school, famsize, age, absences) %>% summarise(count = n())
@@ -45,7 +50,6 @@ g3 <- ggplot(alc, aes(x = alc_use, y = age, col = sex))
 g4 <- ggplot(alc, aes(x = alc_use, y = absences, col = sex))
 
 # define the plot as a boxplot and draw it
-par(mfrow = c(2,2))
 g1 + geom_boxplot() + ylab("school") + ggtitle("Student school by alcohol consumption and sex")
 g2 + geom_boxplot() + ylab("family size") + ggtitle("Student family size by alcohol consumption and sex")
 g3 + geom_boxplot() + ylab("age") + ggtitle("Student age by alcohol consumption and sex")
@@ -109,7 +113,7 @@ table(high_use = alc$high_use, prediction = alc$prediction) %>% prop.table %>% a
 ```
 Based on this confusion matrix, the prediction is surprisingly good at predicting lack of high usage (true positives 0,68 of 0,96 and true negatives 0,024 of 0.038). If we assume that by guessing only, we would get it right 50 % of the time, the predictive model is much better than just guessing.
 
-# Prediction error comparison
+## Prediction error comparison
 
 ```{r}
 # define a loss function (average prediction error)
@@ -121,8 +125,7 @@ loss_func <- function(class, prob) {
 # compute the average number of wrong predictions in the (training) data
 loss_func(class = alc$high_use, prob = alc$probability)
 
-# K-fold cross-validation
-library(boot)
+# K-fold (10-fold) cross-validation
 cv <- cv.glm(data = alc, cost = loss_func, glmfit = m, K = 10)
 
 # average number of wrong predictions in the cross validation
