@@ -57,4 +57,4 @@ pormath <- por_id %>%
   )
 
 # Save created data to folder 'data' as an Excel worksheet
-write.xlsx(pormath, file="C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/datapormath.xlsx")
+write.xlsx(pormath, file="C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/pormath.xlsx")
