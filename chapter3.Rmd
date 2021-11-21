@@ -8,4 +8,18 @@ library(dplyr)
 library(GGally)
 library(ggplot2)
 ```
+This week I'm analysing a joined dataset that includes two student alcohol consumption data sets. Data set information can be found here: https://archive.ics.uci.edu/ml/datasets/Student+Performance 
+The following adjustments have been made:
+The variables not used for joining the two data have been combined by averaging (including the grade variables)
+* 'alc_use' is the average of 'Dalc' and 'Walc'
+* 'high_use' is TRUE if 'alc_use' is higher than 2 and FALSE otherwise
 
+
+# What's in the dataframe
+```{r}
+alc <- read.csv("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/alc.csv")
+str(alc)
+head(alc)
+dim(alc)
+```
+There are 370 observations over 35 variables. Respondents are studens whose age range from 15 to 22 years, and there are binary variables such as students' sex (F for female, M for male), the school they are from, family size and so on. 
