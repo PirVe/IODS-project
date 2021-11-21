@@ -27,10 +27,34 @@ There are 370 observations over 35 variables. Respondents are studens whose age 
 # Looking more closely at 4 variables in relation to alcohol consumption: 
 I believe that it will be interesting to further study these 4 specific variables and how they relate to alcohol consumption.
 * variable "school" because peer pressure can affect alcohol consumption
-* variable "sex" because male students may emulate their male role model's alcohol usage and therefore there may be differences in the youth between sexes
+* variable "famsize" which is a binary variable of less than 3 family members or more than 3 family members. My hypothesis is that family size does not predict alcohol consumption.
 * variable "age" because there is a legal age (let's say its 18 for this dataset) for using alcohol, and some of the respondents in the data are below 18 years old
-* variable "absences" because other norm-breaking behavior such as absences from school may occur if student is also consuming alcohol regularly.
+* variable "absences", number of school absences (numeric: from 0 to 93)
+ because other norm-breaking behavior such as absences from school may occur if student is also consuming alcohol regularly.
 Here is an overview of the four variables in the dataset:
 ```{r}
-alc %>% group_by(school, sex, age, absences) %>% summarise(count = n())
+alc %>% group_by(school, famsize, age, absences) %>% summarise(count = n())
 ```
+The relationships of variables to alcohol consumption by sex
+
+```{r}
+# initialize a plot of alc_use and each variable
+g1 <- ggplot(alc, aes(x = alc_use, y = school, col = sex))
+g2 <- ggplot(alc, aes(x = alc_use, y = famsize, col = sex))
+g3 <- ggplot(alc, aes(x = alc_use, y = age, col = sex))
+g4 <- ggplot(alc, aes(x = alc_use, y = absences, col = sex))
+
+# define the plot as a boxplot and draw it
+par(mfrow = c(2,2))
+g1 + geom_boxplot() + ylab("school") + ggtitle("Student school by alcohol consumption and sex")
+g2 + geom_boxplot() + ylab("family size") + ggtitle("Student family size by alcohol consumption and sex")
+g3 + geom_boxplot() + ylab("age") + ggtitle("Student age by alcohol consumption and sex")
+g4 + geom_boxplot() + ylab("absences") + ggtitle("Student absences by alcohol consumption and sex")
+```
+
+Family size matters for female students more, but more alcohol using male students come from bigger (GT3) families whereas female students alcohol usage is lower than males' in any case.
+As expected, school matters, but it seems that the effect is limited to male students, who use use alcohol more than female students. Among female students there is no difference between schools.
+From the data we can see that the absences do not seem to have a specific influence on alcohol consumption.
+The surprising result is that most alcohol using female students seem to be 16-17 years of age, whereas male students report using alcohol until they are 18. This relates either to the fact that the legal age of alcohol consumption is 16 (as there are only few observations of below 16 years old using alcohol) and that after the initial one or two years of legal consumption, the usage lessens significantly.
+
+
