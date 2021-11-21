@@ -107,16 +107,25 @@ g + geom_point()
 # tabulate the target variable versus the predictions
 table(high_use = alc$high_use, prediction = alc$prediction) %>% prop.table %>% addmargins
 ```
-Based on this, the prediction is surprisingly good at predicting lack of high usage (false values accurate 68,6 % of the time).
+Based on this confusion matrix, the prediction is surprisingly good at predicting lack of high usage (true positives 0,68 of 0,96 and true negatives 0,024 of 0.038). If we assume that by guessing only, we would get it right 50 % of the time, the predictive model is much better than just guessing.
+
+# Prediction error comparison
 
 ```{r}
-
-# define a loss function (mean prediction error)
+# define a loss function (average prediction error)
 loss_func <- function(class, prob) {
   n_wrong <- abs(class - prob) > 0.5
   mean(n_wrong)
 }
 
-# call loss_func to compute the average number of wrong predictions in the (training) data
+# compute the average number of wrong predictions in the (training) data
 loss_func(class = alc$high_use, prob = alc$probability)
+
+# K-fold cross-validation
+library(boot)
+cv <- cv.glm(data = alc, cost = loss_func, glmfit = m, K = 10)
+
+# average number of wrong predictions in the cross validation
+cv$delta[1]
 ```
+The prediction error is less than 0,29 (actual: 0.2891892) for each observation in the training data. The 10-fold cross-validation diminishes the error by very little, result bein 0,2837838 which is a difference of 0,0054054 or ~0.005. As the Datacamp prediction error was 0,26, we can see that my model was worse by two hairs (around 0,02). As this is most likely result from choice of variables, I can say that choosing some other variables with statistical significance would have improved my results. At this point, I'm not going to try to find a better suited  model.
