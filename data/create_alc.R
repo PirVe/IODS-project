@@ -67,4 +67,32 @@ str(pormath)
 dim(pormath)
 # Output: there are 370 observations of 51 variables
 
+# Combining duplicated answers in data
+
+
+# create a new data frame with only the joined columns
+alc <- select(pormath, one_of(join_cols))
+
+# the columns in the datasets which were not used for joining the data
+notjoined_columns <- colnames(math)[!colnames(math) %in% join_cols]
+
+# for every column name not used for joining...
+for(column_name in notjoined_columns) {
+  # select two columns from 'pormath' with the same original name
+  two_columns <- select(pormath, starts_with(column_name))
+  # select the first column vector of those two columns
+  first_column <- select(two_columns, 1)[[1]]
+  
+  # if that first column vector is numeric...
+  if(is.numeric(first_column)) {
+    # take a rounded average of each row of the two columns and
+    # add the resulting vector to the alc data frame
+    alc[column_name] <- round(rowMeans(two_columns))
+  } else { 
+    # else if it's not numeric...
+    # add the first column vector to the alc data frame
+    alc[column_name] <- select(two_columns, 1)[[1]]
+  }
+}
+
 
