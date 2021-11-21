@@ -1,71 +1,60 @@
-# Piritta Vesaniemi, 14.11.2021, Rscript file for data wrangling exercise
-# step 1 completed
+# Piritta Vesaniemi, 21.11.2021, Rscript file for data wrangling exercise
 
-# Reading the data from http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-data.txt
-learning2014 <- read.table("http://www.helsinki.fi/~kvehkala/JYTmooc/JYTOPKYS3-data.txt", sep="\t", header=TRUE)
-
-# Exploring dimensions of learning2014
-dim(learning2014)
-# Output: 183 rows, 60 columns
-
-# Exploring structure of learning2014
-str(learning2014)
-# Output: a few rows and a few columns with values and value types
-# step 2 completed 
-
-# Creating an analysis dataset
-
-# Accessing the dplyr library
-install.packages("dplyr")
+# making libraries available
+install.packages("openxlsx", "dplyr")
 library(dplyr)
+library(openxlsx)
 
-# combining questions for deep, surface and strategic learning
-deep_questions <- c("D03", "D11", "D19", "D27", "D07", "D14", "D22", "D30","D06",  "D15", "D23", "D31")
-surface_questions <- c("SU02","SU10","SU18","SU26", "SU05","SU13","SU21","SU29","SU08","SU16","SU24","SU32")
-strategic_questions <- c("ST01","ST09","ST17","ST25","ST04","ST12","ST20","ST28")
+# Reading the datasets student-mat and student-por
+math <- read.table("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/student-mat.csv", sep = ";" , header=TRUE)
+por <- read.table("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/student-por.csv", sep = ";" , header=TRUE)
 
-# Selecting the columns from learning2014 and scaling them by taking the mean
-deep_columns <- select(learning2014, one_of(deep_questions))
-learning2014$deep <- rowMeans(deep_columns)
+# joining the datasets following https://raw.githubusercontent.com/rsund/IODS-project/master/data/create_alc.R
 
-surface_columns <- select(learning2014, one_of(surface_questions))
-learning2014$surf <- rowMeans(surface_columns)
+# Define own id for both datasets
+por_id <- por %>% mutate(id=1000+row_number()) 
+math_id <- math %>% mutate(id=2000+row_number())
 
-strategic_columns <- select(learning2014, one_of(strategic_questions))
-learning2014$stra <- rowMeans(strategic_columns)
+# Which columns vary in datasets
+free_cols <- c("id","failures","paid","absences","G1","G2","G3")
 
-# Scaling the column "Attitude" to mean by dividing it by the sum of 10 questions to get it back to Likert scale 1-5
-learning2014$attitude <- learning2014$Attitude / 10
+# The rest of the columns are common identifiers used for joining the datasets
+join_cols <- setdiff(colnames(por),free_cols)
 
-# Checking current column names in learning2014
-colnames(learning2014)
+pormath_free <- por_id %>% bind_rows(math_id) %>% select(one_of(free_cols))
 
-# choosing the columns to keep and creating a new dataset with them
-keep_columns <- c("gender","Age","attitude", "deep", "stra", "surf", "Points")
-lrn2014 <- select(learning2014, one_of(keep_columns))
+# Combine datasets to one long data
+#There are NO 382 but 370 students that belong to both datasets
+pormath <- por_id %>% 
+  bind_rows(math_id) %>%
+  # Aggregate data (more joining variables than in the example)  
+  group_by(.dots=join_cols) %>%  
+  # Calculating required variables from two obs  
+  summarise(                                                           
+    n=n(),
+    id.p=min(id),
+    id.m=max(id),
+    failures=round(mean(failures)),     #  Rounded mean for numerical
+    paid=first(paid),                   #    and first for chars
+    absences=round(mean(absences)),
+    G1=round(mean(G1)),
+    G2=round(mean(G2)),
+    G3=round(mean(G3))    
+  ) %>%
+  # Remove lines that do not have exactly one obs from both datasets
+  #   There must be exactly 2 observations found in order to joining be succesful
+  #   In addition, 2 obs to be joined must be 1 from por and 1 from math
+  #     (id:s differ more than max within one dataset (649 here))
+  filter(n==2, id.m-id.p>650) %>%  
+  # Join original free fields, because rounded means or first values may not be relevant
+  inner_join(pormath_free,by=c("id.p"="id"),suffix=c("",".p")) %>%
+  inner_join(pormath_free,by=c("id.m"="id"),suffix=c("",".m")) %>%
+  # Calculate other required variables  
+  ungroup %>% mutate(
+    alc_use = (Dalc + Walc) / 2,
+    high_use = alc_use > 2,
+    cid=3000+row_number()
+  )
 
-# checking the stucture of the new dataset lrn2014
-str(lrn2014)
-
-# renaming columns Age and Points
-colnames(lrn2014)[2] <- "age"
-colnames(lrn2014)[7] <- "points"
-
-# Excluding observations where the exam points variable is zero by filtering for greater than 0 values
-lrn2014 <- filter(lrn2014, points > 0)
-#Output: 166 observations of 7 variables
-# step 3 completed
-
-# Setting the project folder to IODS-project
-setwd("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project")
-
-# Saving analysis dataset lrn2014 to csv file in folder "data"
-path <- "C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data"
-write.csv(lrn2014, file.path(path, "lrn2014.csv"), row.names=FALSE)
-
-# Checking readability and structure of lrn2014.csv
-lrn2014 <- read.csv(file.path(path, "lrn2014.csv"))
-str(lrn2014)
-head(lrn2014)
-# Output: correct, dataset readable and structure 166 observations, 7 variables
-# step 4 completed
+# Save created data to folder 'data' as an Excel worksheet
+write.xlsx(pormath, file="C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/datapormath.xlsx")
