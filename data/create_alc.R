@@ -101,3 +101,11 @@ alc <- mutate(alc, alc_use = (Dalc + Walc) / 2)
 
 #  create a new logical column 'high_use' which is TRUE for students for which 'alc_use' is greater than 2 (and FALSE otherwise).
 alc <- mutate(alc, high_use = (alc_use > 2))
+
+# Taking a glimpse to check that everything is the way it should be
+glimpse(alc)
+# output: there are 370 rows (observations) of 35 columns (variables)
+
+# Saving modified and joined data
+path <- "C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data"
+write.csv(alc, file.path(path, "alc.csv"), row.names=FALSE)
