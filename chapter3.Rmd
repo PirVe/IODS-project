@@ -19,7 +19,9 @@ The variables not used for joining the two data have been combined by averaging 
 ```{r}
 alc <- read.csv("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/alc.csv")
 str(alc)
-head(alc)
+colnames(alc)
 dim(alc)
 ```
-There are 370 observations over 35 variables. Respondents are studens whose age range from 15 to 22 years, and there are binary variables such as students' sex (F for female, M for male), the school they are from, family size and so on. 
+There are 370 observations over 35 variables. Respondents are studens whose age range from 15 to 22 years, and there are numeric, nominal and  binary variables. Binary variables include questions such as students' sex (F for female, M for male), the school they are from (school), family size (famsize).
+
+
