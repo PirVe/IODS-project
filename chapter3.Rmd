@@ -1,0 +1,11 @@
+# Week 3: Logistic regression
+
+```{r, echo=F, message=F, warning=F}
+date()
+if (!require("pacman")) install.packages("pacman") 
+pacman::p_load(tidyverse, forcats, haven, janitor, psych, lm.beta, broom, writexl,sjstats, knitr, pwr, dplyr, GGally, ggplot2)
+library(dplyr)
+library(GGally)
+library(ggplot2)
+```
+
