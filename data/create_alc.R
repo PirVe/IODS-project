@@ -1,9 +1,10 @@
 # Piritta Vesaniemi, 21.11.2021, Rscript file for data wrangling exercise
 
 # making libraries available
-install.packages("openxlsx", "dplyr")
+install.packages("openxlsx", "dplyr", "ggplot2")
 library(dplyr)
 library(openxlsx)
+library(ggplot2)
 
 # Reading the datasets student-mat and student-por
 math <- read.table("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/student-mat.csv", sep = ";" , header=TRUE)
@@ -95,4 +96,8 @@ for(column_name in notjoined_columns) {
   }
 }
 
+# Take the average of the answers related to weekday and weekend alcohol consumption to create a new column 'alc_use' to the joined data. 
+alc <- mutate(alc, alc_use = (Dalc + Walc) / 2)
 
+#  create a new logical column 'high_use' which is TRUE for students for which 'alc_use' is greater than 2 (and FALSE otherwise).
+alc <- mutate(alc, high_use = (alc_use > 2))
