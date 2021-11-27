@@ -5,12 +5,13 @@ date()
 
 # Making libraries available
 if (!require("pacman")) install.packages("pacman") 
-pacman::p_load(tidyverse, forcats, haven, janitor, psych, lm.beta, broom, writexl,sjstats, knitr, pwr, corrplot, tidyr, dplyr, ggplot2)
+pacman::p_load(tidyverse, forcats, haven, janitor, psych, lm.beta, broom, writexl,sjstats, knitr, pwr, corrplot, tidyr, dplyr, ggplot2, GGally)
 library(MASS)
 library(corrplot)
 library(tidyr)
 library(dplyr)
 library(ggplot2)
+library(GGally)
 ```
 
 This week we are taking a go at clustering and classification with RStudio's native Boston dataset. More information about the dataset can be found here: https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/Boston.html.
@@ -163,4 +164,40 @@ dist_eu <- dist(boston_scaled2)
 summary(dist_eu)
 
 ```
+Running k-means algorithm on the data:
+```{r}
+# k-means clustering
+km <-kmeans(boston_scaled2, centers = 3)
+```
 
+Now investigating what is the optimal number of clusters: 
+```{r}
+# change the object to data frame
+boston_scaled2 <- as.data.frame(boston_scaled2)
+
+# determine the k
+set.seed(123)
+
+# determine the number of clusters
+k_max <- 10
+
+# calculate the total within sum of squares
+twcss <- sapply(1:k_max, function(k){kmeans(boston_scaled2, k)$tot.withinss})
+
+# visualize the results
+qplot(x = 1:k_max, y = twcss, geom = 'line')
+```
+There is a big drop in similarity between the clusters at about 2, so the optimal number of clusters is 2. Running the k-means clustering algorithm with 2 clusters on the boston_scaled2 data:
+
+```{r}
+# run k-means clustering algorithm again 
+km <-kmeans(boston_scaled2, centers = 2)
+
+# plot the boston_scaled2 dataset with clusters
+par(mfrow = c(2,2))
+pairs(boston_scaled2[1:5], col = km$cluster)
+pairs(boston_scaled2[6:10], col = km$cluster)
+pairs(boston_scaled2, col = km$cluster)
+```
+The dummy variable chas is distinguished by the almost complete lack of overlap between the clusters. Age and pupil-teacher ratio per town (ptratio). Crime rate variation correlates with human variables such as age, black, lstat (lower status of population), which is not surprising.  
+No bonus tasks done this time.
