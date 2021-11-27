@@ -1,11 +1,30 @@
 # Week 4: Clustering and classification
 
-```{r, echo=F, message=F, warning=F}
+```{r}
 date()
+
+# Making libraries available
 if (!require("pacman")) install.packages("pacman") 
 pacman::p_load(tidyverse, forcats, haven, janitor, psych, lm.beta, broom, writexl,sjstats, knitr, pwr, dplyr, GGally, ggplot2, boot)
 library(dplyr)
 library(GGally)
 library(ggplot2)
 library(boot)
+library(MASS)
 ```
+
+This week we are taking a go at clustering and classification with RStudio's native Boston dataset. More information about the dataset can be found here: https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/Boston.html.
+
+```{r}
+# load the data from MASS package
+data(Boston)
+
+# explore the dataset
+str(Boston)
+dim(Boston)
+summary(Boston)
+```
+There are 506 observations of 14 variables, which include crime rate per capita in town (crim) and average rooms per dwelling (rm) among others.
+
+
+
