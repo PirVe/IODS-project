@@ -84,7 +84,7 @@ boston_scaled <- dplyr::select(boston_scaled, -crim)
 boston_scaled <- data.frame(boston_scaled, crime)
 ```
 
-Now we can divide the data into test and training sets so that 80 % of the data belongs to the training set.
+Now we can divide the data into test and training sets so that 80 % of the data belongs to the training dataset.
 
 ```{r}
 # number of rows in the Boston dataset 
@@ -100,5 +100,29 @@ train <- boston_scaled[ind,]
 test <- boston_scaled[-ind,]
 colnames(test)
 ```
+Next we are going to fit a linear discriminant analysis (LDA) model to the training data. we'll use the newly created "crime" variable as the target and all others as the predictors.
+```{r}
+# linear discriminant analysis
+lda.fit <- lda(crime ~ ., data = train)
 
+# print the lda.fit object
+lda.fit
+
+# the function for lda biplot arrows
+lda.arrows <- function(x, myscale = 1, arrow_heads = 0.1, color = "red", tex = 0.75, choices = c(1,2)){
+  heads <- coef(x)
+  arrows(x0 = 0, y0 = 0, 
+         x1 = myscale * heads[,choices[1]], 
+         y1 = myscale * heads[,choices[2]], col=color, length = arrow_heads)
+  text(myscale * heads[,choices], labels = row.names(heads), 
+       cex = tex, col=color, pos=3)
+}
+
+# target classes as numeric
+classes <- as.numeric(train$crime)
+
+# plot the lda results
+plot(lda.fit, dimen = 2, col = classes, pch = classes) + title("LDA biplot")
+lda.arrows(lda.fit, myscale = 2)
+```
 
