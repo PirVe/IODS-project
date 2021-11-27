@@ -126,6 +126,7 @@ classes <- as.numeric(train$crime)
 plot(lda.fit, dimen = 2, col = classes, pch = classes) + title("LDA biplot")
 lda.arrows(lda.fit, myscale = 2)
 ```
+
 To continue testing, we are going to remove the "crime" categorical variable from the test data set. No worries, the crime categories will be saved for later use.
 
 ```{r}
@@ -144,6 +145,7 @@ lda.pred <- predict(lda.fit, newdata = test)
 # cross tabulate the results
 table(correct = correct_classes, predicted = lda.pred$class)
 ```
+
 From the cross tabulation presented above we can see that there is a significant amount of misclassification related to lower to medium levels of criminality, but the high crime rate is predicted much more accurately with only single misclassifications. This may be understandable from the assumption that high crime is generally better recognized and subsequently recorded, whereas low crime rates imply fewer observations of crime. 
 
 Now, back to the Boston dataset, we'll calculate the Euclidean distances to look at similarity of the objects. To be able to do this, we'll scale the data first to make the observations comparable:
@@ -187,6 +189,7 @@ twcss <- sapply(1:k_max, function(k){kmeans(boston_scaled2, k)$tot.withinss})
 # visualize the results
 qplot(x = 1:k_max, y = twcss, geom = 'line')
 ```
+
 There is a big drop in similarity between the clusters at about 2, so the optimal number of clusters is 2. Running the k-means clustering algorithm with 2 clusters on the boston_scaled2 data:
 
 ```{r}
@@ -199,5 +202,6 @@ pairs(boston_scaled2[1:5], col = km$cluster)
 pairs(boston_scaled2[6:10], col = km$cluster)
 pairs(boston_scaled2, col = km$cluster)
 ```
+
 The dummy variable chas is distinguished by the almost complete lack of overlap between the clusters. Age and pupil-teacher ratio per town (ptratio). Crime rate variation correlates with human variables such as age, black, lstat (lower status of population), which is not surprising.  
 No bonus tasks done this time.
