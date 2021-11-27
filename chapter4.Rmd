@@ -125,4 +125,14 @@ classes <- as.numeric(train$crime)
 plot(lda.fit, dimen = 2, col = classes, pch = classes) + title("LDA biplot")
 lda.arrows(lda.fit, myscale = 2)
 ```
+To continue testing, we are going to remove the "crime" categorical variable from the test data set. No worries, the crime categories will be saved for possible later use.
+
+```{r}
+# save the crime classes from test data
+correct_classes <- test$crime
+
+# remove the crime variable from test data
+test <- dplyr::select(test, -crime)
+```
+
 
