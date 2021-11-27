@@ -143,5 +143,24 @@ lda.pred <- predict(lda.fit, newdata = test)
 # cross tabulate the results
 table(correct = correct_classes, predicted = lda.pred$class)
 ```
-From the cross tabulation presented above we can see that there is a significant amount of misclassification related to lower levels of criminality, but the high crime rate is predicted much more accurately with only single misclassifications. This may be understandable from the point of view that high crime is generally better recognized and subsequently recorded, whereas low crime rates imply fewer observations of crime. 
+From the cross tabulation presented above we can see that there is a significant amount of misclassification related to lower to medium levels of criminality, but the high crime rate is predicted much more accurately with only single misclassifications. This may be understandable from the assumption that high crime is generally better recognized and subsequently recorded, whereas low crime rates imply fewer observations of crime. 
+
+Now, back to the Boston dataset, we'll calculate the Euclidean distances to look at similarity of the objects. To be able to do this, we'll scale the data first to make the observations comparable:
+```{r}
+# reload the dataset
+data(Boston)
+
+# standardize the data
+boston_scaled2 <- scale(Boston)
+
+# summaries of the newly scaled variables
+summary(boston_scaled2)
+
+# euclidean distance matrix
+dist_eu <- dist(boston_scaled2)
+
+# look at the summary of the distances
+summary(dist_eu)
+
+```
 
