@@ -51,5 +51,54 @@ corrplot(cor_matrix, order = 'AOE', cl.pos = 'b', tl.pos = 'd',
 
 In the matrix above, the bigger and darker the circle, the stronger the correlation between variables. The correlation matrix shows that there is a strong correlation between age and nox (nitrogen oxides concentration (parts per 10 million)). Also the correlation is strong between nox and indus (proportion of non-retail business acres per town), which is easy to understand, when we know that industry is a remarkable pollutor in cities. Chas is a dummy variable (Charles River dummy variable (= 1 if tract bounds river; 0 otherwise)) and therefore it is not surprising that there are very little correlation between chas and the other variables.
 
+To allow for easier handling of the data in the next steps, we'll scale the data by subtracting the column means from the corresponding columns and dividing the difference with standard deviation. The Boston dataset contains only numerical variables.
+
+```{r}
+# center and standardize variables
+boston_scaled <- scale(Boston)
+
+# summaries of the scaled variables
+summary(boston_scaled)
+```
+
+The scaling affects the data so that all variables are now centered around the mean value of 0. Let's take a closer look at the scaled variable "crim" which will be shown divided into quantiles, then we removed it from the scaled Boston dataset, and replaced with the categorical variable "crime":
+
+```{r}
+# change the object to data frame
+boston_scaled <- as.data.frame(boston_scaled)
+
+# create a quantile vector of crim and print it
+bins <- quantile(boston_scaled$crim)
+bins
+
+# create a categorical variable 'crime'
+crime <- cut(boston_scaled$crim, breaks = bins, include.lowest = TRUE, label = c("low", "med_low", "med_high", "high"))
+
+# look at the table of the new factor crime
+table(crime)
+
+# remove original crim from the dataset
+boston_scaled <- dplyr::select(boston_scaled, -crim)
+
+# add the new categorical value to scaled data
+boston_scaled <- data.frame(boston_scaled, crime)
+```
+
+Now we can divide the data into test and training sets so that 80 % of the data belongs to the training set.
+
+```{r}
+# number of rows in the Boston dataset 
+n <- nrow(boston_scaled)
+
+# choose randomly 80% of the rows
+ind <- sample(n,  size = n * 0.8)
+
+# create train set
+train <- boston_scaled[ind,]
+
+# create test set  and check the names of the variables
+test <- boston_scaled[-ind,]
+colnames(test)
+```
 
 
