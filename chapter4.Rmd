@@ -5,12 +5,12 @@ date()
 
 # Making libraries available
 if (!require("pacman")) install.packages("pacman") 
-pacman::p_load(tidyverse, forcats, haven, janitor, psych, lm.beta, broom, writexl,sjstats, knitr, pwr, dplyr, GGally, ggplot2, boot)
-library(dplyr)
-library(GGally)
-library(ggplot2)
-library(boot)
+pacman::p_load(tidyverse, forcats, haven, janitor, psych, lm.beta, broom, writexl,sjstats, knitr, pwr, corrplot, tidyr, dplyr, ggplot2)
 library(MASS)
+library(corrplot)
+library(tidyr)
+library(dplyr)
+library(ggplot2)
 ```
 
 This week we are taking a go at clustering and classification with RStudio's native Boston dataset. More information about the dataset can be found here: https://stat.ethz.ch/R-manual/R-devel/library/MASS/html/Boston.html.
@@ -24,7 +24,32 @@ str(Boston)
 dim(Boston)
 summary(Boston)
 ```
-There are 506 observations of 14 variables, which include crime rate per capita in town (crim) and average rooms per dwelling (rm) among others.
+There are 506 observations of 14 variables, which include crime rate per capita in town (crim) and average rooms per dwelling (rm) among others. 
+
+```{r}
+# summary of the data
+summary(Boston)
+
+# draw a histogram of each variable
+gather(Boston) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + geom_histogram()
+```
+
+Mean crime rate (crim) per capita is 3,61, and as a curiosity, the minimum number of rooms per dwelling is 3,6. The age of the respondents is skewed towards very old, as there are a few who are 100 years old. Number of rooms in dwelling (rm) looks like it could be normally distributed, noting that the average number of rooms is over 6 per dwelling. Big dwellings!
+
+
+```{r}
+# calculate the correlation matrix and round it
+cor_matrix<-cor(Boston) %>% round(digits = 2)
+
+# print the correlation matrix
+cor_matrix
+
+# visualize the correlation matrix
+corrplot(cor_matrix, order = 'AOE', cl.pos = 'b', tl.pos = 'd',
+         col = COL2('PRGn'), diag = FALSE)
+```
+
+In the matrix above, the bigger and darker the circle, the stronger the correlation between variables. The correlation matrix shows that there is a strong correlation between age and nox (nitrogen oxides concentration (parts per 10 million)). Also the correlation is strong between nox and indus (proportion of non-retail business acres per town), which is easy to understand, when we know that industry is a remarkable pollutor in cities. Chas is a dummy variable (Charles River dummy variable (= 1 if tract bounds river; 0 otherwise)) and therefore it is not surprising that there are very little correlation between chas and the other variables.
 
 
 
