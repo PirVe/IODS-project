@@ -100,7 +100,7 @@ train <- boston_scaled[ind,]
 test <- boston_scaled[-ind,]
 colnames(test)
 ```
-Next we are going to fit a linear discriminant analysis (LDA) model to the training data. we'll use the newly created "crime" variable as the target and all others as the predictors.
+Next we are going to fit a linear discriminant analysis (LDA) model to the training data. we'll use the newly created  categorical variable "crime" as the target and all other variables as the predictors.
 ```{r}
 # linear discriminant analysis
 lda.fit <- lda(crime ~ ., data = train)
@@ -125,7 +125,7 @@ classes <- as.numeric(train$crime)
 plot(lda.fit, dimen = 2, col = classes, pch = classes) + title("LDA biplot")
 lda.arrows(lda.fit, myscale = 2)
 ```
-To continue testing, we are going to remove the "crime" categorical variable from the test data set. No worries, the crime categories will be saved for possible later use.
+To continue testing, we are going to remove the "crime" categorical variable from the test data set. No worries, the crime categories will be saved for later use.
 
 ```{r}
 # save the crime classes from test data
@@ -135,4 +135,13 @@ correct_classes <- test$crime
 test <- dplyr::select(test, -crime)
 ```
 
+Then we'll use the LDA model to predict the classes on the test dataset. Correct classes are the saved crame categories from the test data, and we can see that 
+```{r}
+# predict classes with test data
+lda.pred <- predict(lda.fit, newdata = test)
+
+# cross tabulate the results
+table(correct = correct_classes, predicted = lda.pred$class)
+```
+From the cross tabulation presented above we can see that there is a significant amount of misclassification related to lower levels of criminality, but the high crime rate is predicted much more accurately with only single misclassifications. This may be understandable from the point of view that high crime is generally better recognized and subsequently recorded, whereas low crime rates imply fewer observations of crime. 
 
