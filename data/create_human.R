@@ -57,3 +57,7 @@ gii <- mutate(gii, FM2Rat = F2Ed / M2Ed)
 #The second new variable is the ratio of labour force participation of females and males in each country.
 gii <- mutate(gii, FMLabourRat = FLabour / MLabour)
 
+# Joining the two datasets by Country
+hd_gii <- inner_join(hd, gii, by = "Country", suffix = c(".hd", ".gii"))
+str(hd_gii)
+# There are 195 observations of 19 variables.
