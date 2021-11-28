@@ -19,11 +19,11 @@ str(gii)
 # There are 195 observations of 8 variables in "hd" and 195 observations of 10 variables in "gii"
 
 #taking a go at renaming columns
-# saving the old column names for further reference just in case
+# saving the old column names for further reference just in case (not required by the task)
 old_names_hd <- colnames(hd)
 old_names_gii <- colnames(gii)
 
-# To be  on the safe side, I'll mask the "hd" and "gii" data with another name in order to save them from harm. 
+# To be  on the safe side, I'll mask the "hd" and "gii" data with another name in order to save them from harm (not required by the task). 
 # The data will be essentially the same, but all operations are performed on a doppelgänger.
 # This operation does not affect the end result of the wrangling.
 tryhd <- hd
@@ -45,7 +45,7 @@ colnames(trygii) = new_names_gii
 str(tryhd)
 str(trygii)
 
-# Now I'll revert back to using the original hd and gii names, by replacing the originals with modified column name datasets
+# Now I'll revert back to using the original hd and gii names, by replacing the originals with the datasets that have modified column names 
 hd <- tryhd
 gii <- trygii
 
@@ -61,3 +61,8 @@ gii <- mutate(gii, FMLabourRat = FLabour / MLabour)
 hd_gii <- inner_join(hd, gii, by = "Country", suffix = c(".hd", ".gii"))
 str(hd_gii)
 # There are 195 observations of 19 variables.
+
+# Saving modified and joined data as "human"
+human <- hd_gii
+path <- "C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data"
+write.csv(human, file.path(path, "human.csv"), row.names=FALSE)
