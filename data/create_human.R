@@ -45,4 +45,15 @@ colnames(trygii) = new_names_gii
 str(tryhd)
 str(trygii)
 
+# Now I'll revert back to using the original hd and gii names, by replacing the originals with modified column name datasets
+hd <- tryhd
+gii <- trygii
+
+# Creating two new variables to the gender equality data, which is the "gii" dataset
+
+# The first new variable is the ratio of Female and Male populations with secondary education in each country. 
+gii <- mutate(gii, FM2Rat = F2Ed / M2Ed)
+
+#The second new variable is the ratio of labour force participation of females and males in each country.
+gii <- mutate(gii, FMLabourRat = FLabour / MLabour)
 
