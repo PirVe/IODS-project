@@ -117,3 +117,10 @@ colnames(human1)
 # Now let's remove all rows with missing values from the new human1 dataset
 human1 <- na.omit(human1)
 
+# Remove the observations which relate to regions instead of countries. The regions are the last values of the human1 dataset, so we'll look at them do define how many of them there is
+tail(human1, 10)
+# there are 7 regional observations so we'll omit them and choose everything else to keep
+last <- nrow(human1) - 7
+human2 <- human1[1:last, ]
+tail(human2, 10)
+# Now "Niger" is the last country
