@@ -113,3 +113,7 @@ colnames(human)
 keep_columns <- c("Country", "Edu2.FM", "Labo.FM", "Edu.Exp", "Life.Exp", "GNI", "Mat.Mor", "Ado.Birth", "Parli.F")
 human1 <- select(human, one_of(keep_columns))
 colnames(human1)
+
+# Now let's remove all rows with missing values from the new human1 dataset
+human1 <- na.omit(human1)
+
