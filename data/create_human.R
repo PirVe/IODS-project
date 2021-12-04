@@ -63,16 +63,16 @@ hd_gii <- inner_join(hd, gii, by = "Country", suffix = c(".hd", ".gii"))
 str(hd_gii)
 # There are 195 observations of 19 variables.
 
-# Saving modified and joined data as "human"
-human <- hd_gii
+# Saving modified and joined data as "humanRemove"
+humanRemove <- hd_gii
 path <- "C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data"
-write.csv(human, file.path(path, "human.csv"), row.names=FALSE)
+write.csv(humanRemove, file.path(path, "humanRemove.csv"), row.names=FALSE)
 
 #
 # Week 5 task starts here!
 #
 # Reading the human data to R
-human <- read.csv("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/human.csv")
+human <- read.csv("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/humanRemove.csv")
 
 # Structure and dimensions of "human"
 str(human)
@@ -129,8 +129,9 @@ tail(human2, 10)
 # add countries as rownames
 rownames(human2) <- human2$Country
 # remove the Country variable
-human2 <- select(human2, -Country)
+human2 <- select(human2, -"Country")
 dim(human2)
+str(human2)
 # We have 155 observations of 8 variables, success!
 
 #Save the human data in my data folder including the row names.
