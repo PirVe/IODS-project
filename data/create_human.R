@@ -96,4 +96,20 @@ human$GNI <- as.numeric(gsub(",", ".", human$GNI))
 human$GNI
 # checking the structure of the dataframe
 str(human)
-# The GNI variable shows with rounded values  "GNI         : num  65 42.3 56.4 44 45.4 ..." but the check above confirmed that the saved values have 3 decimals
+# The GNI variable shows rounded values  "GNI         : num  65 42.3 56.4 44 45.4 ..." but the check above confirmed that the saved values have 3 decimals
+
+# Excluding unnecessary columns, keeping those that match "Mat.Mor", "Ado.Birth", "Parli.F"
+# to make things simpler, I'll rename my to-keep columns first with the task given column names:
+oldnameshuman <- colnames(human)
+colnames(human)[18] <- "Edu2.FM"
+colnames(human)[19] <- "Labo.FM"
+colnames(human)[5] <- "Edu.Exp"
+colnames(human)[4] <- "Life.Exp"
+colnames(human)[11] <- "Mat.Mor"
+colnames(human)[12] <- "Ado.Birth"
+colnames(human)[13] <- "Parli.F"
+colnames(human)
+# now let's keep only the columns "Country", "Edu2.FM", "Labo.FM", "Edu.Exp", "Life.Exp", "GNI", "Mat.Mor", "Ado.Birth", "Parli.F"
+keep_columns <- c("Country", "Edu2.FM", "Labo.FM", "Edu.Exp", "Life.Exp", "GNI", "Mat.Mor", "Ado.Birth", "Parli.F")
+human1 <- select(human, one_of(keep_columns))
+colnames(human1)
