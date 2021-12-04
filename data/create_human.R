@@ -66,3 +66,23 @@ str(hd_gii)
 human <- hd_gii
 path <- "C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data"
 write.csv(human, file.path(path, "human.csv"), row.names=FALSE)
+
+#
+# Week 5 task starts here!
+#
+# Reading the human data to R
+human <- read.csv("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/human.csv")
+
+# Structure and dimensions of "human"
+str(human)
+dim (human)
+# There are 195 observations of 19 variables. The variables are named 
+# "HDIR" for HDI rank, "Country" for country, "HDIx" for Human development index, "LifeEx" for Life expectancy at birth,
+# "ExEd" for Expected years of education, "MeanEdYears" for Mean years of education,  "GNI" for Gross National Income per capita,
+# "GNIRlessHDIR" is GNI minus HDI rank, "GIIR" for GII rank, "GIIx" for Gender inequality index, "MotherDeathR" for Maternal mortality ratio,
+# "AdolBirthR" for Adolescent birth rate, "RepInParl" for Percent of Representation in Parliament, 
+# "F2Ed" for Female population with secondary education, "M2Ed" Male population with secondary education,
+# "FLabour" for Female labour force participation rate, "MLabour" Male labour force participation rate, 
+# "FM2Rat" for the new  ratio of Female and Male populations with secondary education in each country
+# "FMLabourRat" for the new ratio of Female and Male populations labour force participation in each country. 
+
