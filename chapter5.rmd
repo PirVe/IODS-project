@@ -63,6 +63,25 @@ The variation captured is noted on the line "Proportion of variance" and we can 
 Let's look at a biplot of the PC representation with the first two variables:
 ```{r}
 # draw a biplot of the principal component representation and the original variables
-biplot(pca_human, choices = 1:2, cex = c(0.8, 1), col = c("grey40", "deeppink2"))
+biplot(pca_human, choices = 1:2, cex = c(0.8, 1), col = c("grey40", "deeppink2")) + 
+
 ```
 
+Now we'll try that again but with standardized data:
+```{r}
+# standardize the variables
+human_std <- scale(human)
+
+# print out summaries of the standardized variables
+summary(human_std)
+
+# perform principal component analysis (with the SVD method) and check variation
+pca_human2 <- prcomp(human_std)
+summary(pca_human2)
+
+# draw a biplot of the principal component representation and the original variables
+p1 <- biplot(pca_human2, choices = 1:2, cex = c(0.8, 1), col = c("grey40", "deeppink2"))
+```
+
+Now the variance captured by PC1 is only around 50% and PC2 around 16%, which evens out the variation caused by other components, while we are still able to say that the variation is mainly caused by the two first components. 
+The results are different with standardized and non-standardized data, 
