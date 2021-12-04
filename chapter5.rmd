@@ -15,6 +15,15 @@ library(GGally)
 
 This week we are learning about dimensionality reduction technique. The dataset in use is a combined and modified "human" dataset, which originates from United Nations Development Programme data of Human development index and Gender Equality. Here you can find more information of the data: http://hdr.undp.org/en/content/human-development-index-hdi
 
+The variables are 
+"Life.Exp" for Life expectancy at birth,
+"Edu.Exp" for Expected years of education,
+"GNI" for Gross National Income per capita,
+"Mat.Mor" for Maternal mortality ratio,
+"Ado.Birth" for Adolescent birth rate, 
+"Parli.F" for Percent of Representation in Parliament, 
+"Edu2.FM" for the ratio of Female and Male populations with secondary education in each country
+"Labo.FM" for the  ratio of Female and Male populations labour force participation in each country. 
 ```{r}
 # load the data from my computer and telling R that the row names are in the first column
 human <- read.csv("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/human.csv", row.names = 1)
@@ -26,3 +35,19 @@ summary(human)
 ```
 
 There are 155 observations of 9 variables, with all other variables as numeric except Mat.mor. 
+A graphical overview with histograms, and showing correlations between variables:
+```{r}
+# histograms
+gather(human) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + geom_histogram()
+# calculate the correlation matrix and round it
+cor_matrix<-cor(human) %>% round(digits = 2)
+
+# print the correlation matrix
+cor_matrix
+
+# visualize the correlation matrix
+corrplot(cor_matrix, method="circle", type="upper", cl.pos="b", tl.pos="d", tl.cex = 0.6,
+         col = COL2('PRGn'))
+```
+
+It looks like there is very little correlation between the variables Parli.F and Labo.FM with the other variables. Most understandably there is strong correlation between Life.Exp and Edu.Exp, as we can assume that both life expectancy and years of secondary education are affected by general living standards and well-being. Accordingly, a strong negative correlation is shown between Mat.Mor and Life.Exp. GNI's correlation with the variables is in general surprisingly weak, when we think that Gross National Income would play a role in the general living standards.
