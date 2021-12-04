@@ -1,10 +1,11 @@
 # Piritta Vesaniemi, 28.11.2021, Rscript file for data wrangling exercise
 
 # Making libraries available
-install.packages("openxlsx", "tidyverse", "ggplot2")
+install.packages("openxlsx", "tidyverse", "ggplot2", "readr")
 library(tidyverse)
 library(openxlsx)
 library(ggplot2)
+library(readr)
 
 
 # Read the data into RStudio
@@ -86,3 +87,13 @@ dim (human)
 # "FM2Rat" for the new  ratio of Female and Male populations with secondary education in each country
 # "FMLabourRat" for the new ratio of Female and Male populations labour force participation in each country. 
 
+# Mutation of data: transform the Gross National Income (GNI) variable to numeric
+# saving the non-mutated human data just in case (not required by the task)
+savehuman <- human
+# doing the actual  mutation, there is a need to change decimal commas to decimal dots for R to understand that it's a number
+human$GNI <- as.numeric(gsub(",", ".", human$GNI)) 
+# checking that the numeric values match the character values
+human$GNI
+# checking the structure of the dataframe
+str(human)
+# The GNI variable shows with rounded values  "GNI         : num  65 42.3 56.4 44 45.4 ..." but the check above confirmed that the saved values have 3 decimals
