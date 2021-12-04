@@ -124,3 +124,16 @@ last <- nrow(human1) - 7
 human2 <- human1[1:last, ]
 tail(human2, 10)
 # Now "Niger" is the last country
+
+# Define the row names of the data by the country names and remove the country name column from the data
+# add countries as rownames
+rownames(human2) <- human2$Country
+# remove the Country variable
+human2 <- select(human2, -Country)
+dim(human2)
+# We have 155 observations of 8 variables, success!
+
+#Save the human data in my data folder including the row names.
+human <- human2
+path <- "C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data"
+write.csv(human, file.path(path, "human.csv"), row.names=TRUE)
