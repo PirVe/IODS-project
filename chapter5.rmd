@@ -1,10 +1,11 @@
 # Week 5: Dimensionality reduction techniques
 
 # Making libraries available
-```{r dpi = 200}
+```{r}
 date()
 if (!require("pacman")) install.packages("pacman") 
 pacman::p_load(tidyverse, forcats, haven, janitor, psych, lm.beta, broom, writexl,sjstats, knitr, pwr, corrplot, tidyr, dplyr, ggplot2, GGally, knitr, png)
+install.packages("FactoMineR")
 library(knitr)
 library(png)
 library(corrplot)
@@ -12,6 +13,7 @@ library(tidyr)
 library(dplyr)
 library(ggplot2)
 library(GGally)
+library(FactoMineR)
 ```
 
 This week we are learning about dimensionality reduction technique. The dataset in use is a combined and modified "human" dataset, which originates from United Nations Development Programme data of Human development index and Gender Equality. Here you can find more information of the data: http://hdr.undp.org/en/content/human-development-index-hdi
@@ -90,3 +92,36 @@ Now the variance captured by PC1 is only around 50% and PC2 around 16%, which ev
 The results are different with standardized and non-standardized data. 
 The non-standardized data mapped on the biplot only show the first two principal components, as they together explain almost all of the variance. Sub-saharan African countries are singled out. The standardized data analyzed with PCA on the other hand shows that more factors explain the variance. Northern Europe stands out as a cluster, explained by Parliamentary representation, ratio of F/M labour and expected years of secondary education. 
 
+As a final step, we'll use our newly learned skills to the "tea" dataset of FactoMineR package of R.
+```{r}
+data(tea)
+str(tea)
+dim(tea)
+```
+
+There are 300 observations of 36 variables in the tea dataset, more information can be found here: https://rdrr.io/cran/FactoMineR/man/tea.html.
+
+For ease of use, we're going to drop most of the variables and operate only with "Tea", "How", "how", "sugar", "where", and "lunch". Here is a visual of it:
+```{r}
+# column names to keep in the dataset
+keep_columnsT <- c("Tea", "How", "how", "sugar", "where", "lunch")
+
+# select the 'keep_columns' to create a new dataset
+tea_time <- dplyr::select(tea, one_of(keep_columnsT))
+
+# visualize the dataset
+gather(tea_time) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + geom_bar() + theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8))
+```
+
+Now let's attempt to do a Multiple Correspondence analysis:
+```{r}
+# multiple correspondence analysis
+mca <- MCA(tea_time, graph = FALSE)
+
+# summary of the model
+summary(mca)
+
+# visualize MCA
+plot(mca, invisible=c("ind"), habillage = "quali", graph.type = "classic")
+
+```
