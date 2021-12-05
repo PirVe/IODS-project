@@ -1,11 +1,10 @@
 # Week 5: Dimensionality reduction techniques
 
-# Making libraries available
+Making libraries available
 ```{r}
 date()
 if (!require("pacman")) install.packages("pacman") 
-pacman::p_load(tidyverse, forcats, haven, janitor, psych, lm.beta, broom, writexl,sjstats, knitr, pwr, corrplot, tidyr, dplyr, ggplot2, GGally, knitr, png)
-install.packages("FactoMineR")
+pacman::p_load(tidyverse, forcats, haven, janitor, psych, lm.beta, broom, writexl,sjstats, knitr, pwr, corrplot, tidyr, dplyr, ggplot2, GGally, knitr, png, FactoMineR)
 library(knitr)
 library(png)
 library(corrplot)
