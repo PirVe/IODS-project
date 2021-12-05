@@ -1,11 +1,12 @@
 # Week 5: Dimensionality reduction techniques
 
 # Making libraries available
-```{r}
+```{r dpi = 200}
 date()
 if (!require("pacman")) install.packages("pacman") 
-pacman::p_load(tidyverse, forcats, haven, janitor, psych, lm.beta, broom, writexl,sjstats, knitr, pwr, corrplot, tidyr, dplyr, ggplot2, GGally)
-library(MASS)
+pacman::p_load(tidyverse, forcats, haven, janitor, psych, lm.beta, broom, writexl,sjstats, knitr, pwr, corrplot, tidyr, dplyr, ggplot2, GGally, knitr, png)
+library(knitr)
+library(png)
 library(corrplot)
 library(tidyr)
 library(dplyr)
@@ -61,9 +62,9 @@ summary(pca_human)
 The variation captured is noted on the line "Proportion of variance" and we can see that PC1 captures almost 77% of the variation and PC2 about 22%, which leaves only about 1% of the variation causes to the other components.
 
 Let's look at a biplot of the PC representation with the first two variables:
-```{r}
+```{r, out.width="300%", fig.cap="Non-Standardized dataset. Variables affecting the Human Development Index"}
 # draw a biplot of the principal component representation and the original variables
-biplot(pca_human, choices = 1:2, cex = c(0.8, 1), col = c("grey40", "deeppink2")) + 
+biplot(pca_human, choices = 1:2, cex = c(0.8, 1), col = c("grey40", "deeppink2"))
 
 ```
 
@@ -78,10 +79,14 @@ summary(human_std)
 # perform principal component analysis (with the SVD method) and check variation
 pca_human2 <- prcomp(human_std)
 summary(pca_human2)
+```
 
+```{r, out.width="300%", fig.cap="Standardized dataset. Variables affecting the Human Development Index"}
 # draw a biplot of the principal component representation and the original variables
-p1 <- biplot(pca_human2, choices = 1:2, cex = c(0.8, 1), col = c("grey40", "deeppink2"))
+biplot(pca_human2, choices = 1:2, cex = c(0.8, 1), col = c("grey40", "deeppink2"))
 ```
 
 Now the variance captured by PC1 is only around 50% and PC2 around 16%, which evens out the variation caused by other components, while we are still able to say that the variation is mainly caused by the two first components. 
-The results are different with standardized and non-standardized data, 
+The results are different with standardized and non-standardized data. 
+The non-standardized data mapped on the biplot only show the first two principal components, as they together explain almost all of the variance. Sub-saharan African countries are singled out. The standardized data analyzed with PCA on the other hand shows that more factors explain the variance. Northern Europe stands out as a cluster, explained by Parliamentary representation, ratio of F/M labour and expected years of secondary education. 
+
