@@ -14,16 +14,16 @@ library(GGally)
 
 This week we are analysing longitudinal data with not-related datasets about weights of rats (RATS) and symptom assessment on human males (BPRS).
 
-Arter reading the datasets to R, we'll have to convert the first two variables to factors. For visualization purposes, new columns to help see the passed time will be created: "week" to BPRS and "Time" to RATS.
+After reading the datasets to R, we'll have to convert the first two variables to factors. For visualization purposes, new columns to help see the passed time will be created: "week" to BPRS and "Time" to RATS.
 
 ```{r}
 # BPRS data:
-BPRS <- read.csv("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/bprs.csv")
+BPRS <- read.table("https://raw.githubusercontent.com/KimmoVehkalahti/MABS/master/Examples/data/BPRS.txt", sep  =" ", header = T)
 BPRS$treatment <- factor(BPRS$treatment)
 BPRS$subject <- factor(BPRS$subject)
 
 # RATS data:
-RATS <- read.csv("C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data/rats.csv")
+RATS <- read.table("https://raw.githubusercontent.com/KimmoVehkalahti/MABS/master/Examples/data/rats.txt", sep  ="\t", header = T)
 RATS$ID <- factor(RATS$ID)
 RATS$Group <- factor(RATS$Group)
 
