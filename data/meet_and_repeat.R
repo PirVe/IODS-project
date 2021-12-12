@@ -68,3 +68,12 @@ str(RATSL)
 str(BPRSL)
 # Now the first variables of both datasets are factors. RATSL includes the variable Time and BPRSL includes the variable Week.
 # In this long form, it is possible to track the observations per subject as the time goes on.
+
+# Saving the modified long form datasets
+ratsl <- RATSL
+path <- "C:/Users/35840/OneDrive - University of Helsinki/IODS/IODS-project/data"
+write.csv(ratsl, file.path(path, "ratsl.csv"))
+
+bprsl <- BPRSL
+write.csv(bprsl, file.path(path, "bprsl.csv"))
+
