@@ -1,10 +1,11 @@
 # Piritta Vesaniemi, 12.12.2021, Rscript file for data wrangling exercise
 
 # making libraries available
-install.packages("openxlsx", "dplyr", "ggplot2")
+install.packages("openxlsx", "dplyr", "ggplot2", "tidyr")
 library(dplyr)
 library(openxlsx)
 library(ggplot2)
+library(tidyr)
 
 # Reading the datasets BPRS and RATS, noting that the separator is different in both
 BPRS <- read.table("https://raw.githubusercontent.com/KimmoVehkalahti/MABS/master/Examples/data/BPRS.txt", sep  =" ", header = T)
@@ -48,4 +49,13 @@ BPRS$subject <- factor(BPRS$subject)
 RATS$ID <- factor(RATS$ID)
 RATS$Group <- factor(RATS$Group)
 
+# Converting both datasets to long form
+BPRSL <-  BPRS %>% gather(key = weeks, value = bprs, -treatment, -subject)
+RATSL <- RATS %>% gather(key = WD, value = Weight, -ID, -Group)
+  
+# Add the week column to BPRSL
+BPRSL <-  BPRSL %>% mutate(week = as.integer(substr(weeks,5,5)))
+
+# Add the time column to RATSL
+RATSL <- RATSL %>% mutate(Time = as.integer(substr(WD,3,4))) 
 
