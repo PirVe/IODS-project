@@ -56,6 +56,7 @@ ggplot(RATSL, aes(x = Time, y = Weight, linetype = ID)) +
   theme(legend.position = "none") + 
   scale_y_continuous(limits = c(min(RATSL$Weight), max(RATSL$Weight)))
 ```
+
 The weights of the rats in the group 1 are consistently lower than in groups 2 and 3, where there are heavier rats.
 Now we take a new go with standardised data:
 ```{r}
@@ -228,4 +229,5 @@ ggplot(BPRSL, aes(x = week, y = Fitted, group = treatment)) +
 
 
 ```
+
 The overall interpretation is that over time, the symptoms are reduced with treatment, even though there is a lot of variation between treatment types.
