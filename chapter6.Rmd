@@ -41,5 +41,106 @@ RATSL <- RATSL %>% mutate(Time = as.integer(substr(WD,3,4)))
 # Glimpse the data to check variable names and data contents
 glimpse(RATSL)
 glimpse(BPRSL)
+```
 
+## RATS data
+
+Then we're going to begin the analyses, first with RATS (longform) data:
+```{r}
+# Draw the plot
+ggplot(RATSL, aes(x = Time, y = Weight, linetype = ID)) +
+  geom_line() +
+  scale_linetype_manual(values = rep(1:10, times=4)) +
+  facet_grid(. ~ Group, labeller = label_both) +
+  theme(legend.position = "none") + 
+  scale_y_continuous(limits = c(min(RATSL$Weight), max(RATSL$Weight)))
+```
+The weights of the rats in the group 1 are consistently lower than in groups 2 and 3, where there are heavier rats.
+Now we take a new go with standardised data:
+```{r}
+
+# Standardise the variable Weight
+RATSL <- RATSL %>%
+  group_by(Time) %>%
+  mutate(stdweight = (Weight - mean(Weight))/sd(Weight) ) %>%
+  ungroup()
+
+# Glimpse the data
+glimpse(RATSL)
+
+# Plot again with the standardised bprs
+ggplot(RATSL, aes(x = Time, y = stdweight, linetype = ID)) +
+  geom_line() +
+  scale_linetype_manual(values = rep(1:10, times=4)) +
+  facet_grid(. ~ Group, labeller = label_both) +
+  scale_y_continuous(name = "standardised weight")
+
+```
+
+Then we'll create a summary and plot the mean profiles:
+```{r}
+# Number of weeks, baseline (week 0) included
+n <- RATSL$Time %>% unique() %>% length()
+
+# Summary data with mean and standard error of bprs by treatment and week 
+RATSS <- RATSL %>%
+  group_by(Group, Time) %>%
+  summarise( mean = mean(Weight), se = sd(Weight)/sqrt(n) ) %>%
+  ungroup()
+
+# Glimpse the data
+glimpse(RATSS)
+
+# Plot the mean profiles
+ggplot(RATSS, aes(x = Time, y = mean, linetype = Group, shape = Group)) +
+  geom_line() +
+  scale_linetype_manual(values = c(1,2,3)) +
+  geom_point(size=3) +
+  scale_shape_manual(values = c(1,2,3)) +
+  geom_errorbar(aes(ymin = mean - se, ymax = mean + se, linetype="1"), width=0.3) +
+  theme(legend.position = c(0.8,0.8)) +
+  scale_y_continuous(name = "mean(Weight) +/- se(Weight)")
+```
+
+Now we'll create a summary data by Group and ID with mean as the summary variable (ignoring baseline point in Time at 1 days)
+```{r}
+RATS8S <- RATSL %>%
+  filter(Time > 1) %>%
+  group_by(Group, ID) %>%
+  summarise( mean=mean(Weight) ) %>%
+  ungroup()
+
+# Glimpse the data
+glimpse(RATS8S)
+
+# Draw a boxplot of the mean versus treatment
+ggplot(RATS8S, aes(x = Group, y = mean)) +
+  geom_boxplot() +
+  stat_summary(fun = "mean", geom = "point", shape=23, size=4, fill = "white") +
+  scale_y_continuous(name = "mean(Weight), Time (in days) 1-64")
+```
+
+There's a curious outlier, a too heavy rat in group 2, which we'll remove and draw the plot again:
+```{r}
+# Create a new data by filtering the outlier and adjust the ggplot code the draw the plot again with the new data
+RATS8S1 <- RATS8S %>%
+  filter(mean < 550)
+
+ggplot(RATS8S1, aes(x = Group, y = mean)) +
+  geom_boxplot() +
+  stat_summary(fun = "mean", geom = "point", shape=23, size=4, fill = "white") +
+  scale_y_continuous(name = "mean(Weight), Time (in days) 1-64")
+```
+
+Finally, we'll add the first poin in time as baseline (Wd1) and create an analysis of variance (anova) table for the RATS:
+```{r}
+# Add the baseline from the original data as a new variable to the summary data
+RATSL8S2 <- RATS8S %>%
+  mutate(baseline = RATS$WD1)
+
+# Fit the linear model with the mean as the response 
+fit <- lm(mean ~ baseline + Group, data = RATSL8S2)
+
+# Compute the analysis of variance table for the fitted model with anova()
+anova(fit)
 ```
