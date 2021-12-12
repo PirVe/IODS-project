@@ -59,3 +59,12 @@ BPRSL <-  BPRSL %>% mutate(week = as.integer(substr(weeks,5,5)))
 # Add the time column to RATSL
 RATSL <- RATSL %>% mutate(Time = as.integer(substr(WD,3,4))) 
 
+# Glimpse the data to check variable names and data contents
+glimpse(RATSL)
+glimpse(BPRSL)
+
+# Check the structure of the data
+str(RATSL)
+str(BPRSL)
+# Now the first variables of both datasets are factors. RATSL includes the variable Time and BPRSL includes the variable Week.
+# In this long form, it is possible to track the observations per subject as the time goes on.
