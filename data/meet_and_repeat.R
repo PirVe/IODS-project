@@ -42,5 +42,10 @@ str(RATS)
 summary(RATS)
 # Just as with the BPRS dataset, the summaries of the first two variables do not really tell anything, because they signify the individual rat and group.
 
+# Converting categorical variables to factor
+BPRS$treatment <- factor(BPRS$treatment)
+BPRS$subject <- factor(BPRS$subject)
+RATS$ID <- factor(RATS$ID)
+RATS$Group <- factor(RATS$Group)
 
 
